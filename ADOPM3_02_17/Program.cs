@@ -19,8 +19,10 @@ namespace ADOPM3_02_17
             
             CompanyResponse(1); // Invoke delegate - shorthand, Multicast 3 delegates
 
+            Console.WriteLine();
             CompanyResponse -= AlarmResponseCompany2; // Remove one particular delegate
             CompanyResponse(1); // Invoke delegate - shorthand, Multicast 2 delegates
+            
         }
 
         //The functions that execution is delegated to

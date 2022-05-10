@@ -11,6 +11,7 @@ namespace ADOPM3_02_15
         {
             AlarmResponse CompanyResponse = new AlarmResponse(AlarmResponseCompany1);  // Create delegate object
             string response = CompanyResponse.Invoke(1); // Invoke delegate
+
             Console.WriteLine(response); //
         }
 
