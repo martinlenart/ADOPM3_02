@@ -9,7 +9,17 @@ namespace ADOPM3_02_16
 
         static void Main(string[] args)
         {
-            AlarmResponse CompanyResponse = AlarmResponseCompany1;  // Create delegate object - shorthand
+            string Greeting = "Hello Operator. Pls take care "; 
+
+            AlarmResponse CompanyResponse = (int priority) =>
+             (priority) switch
+             {
+                 1 => Greeting + "Company1 Critical Level",
+                 2 => Greeting + "Company1 Moderate Level",
+                 3 => Greeting + "Company1 Easy Level",
+                 _ => Greeting + "Comapny1 Unknown Level"
+             };
+
             string response = CompanyResponse(1); // Invoke delegate - shorthand
             Console.WriteLine(response); //
         }
