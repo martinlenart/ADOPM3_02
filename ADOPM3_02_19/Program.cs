@@ -1,20 +1,14 @@
 ﻿using System;
-using InADifferentFile;
 
-namespace InADifferentFile
-{
-    //Delegate Type - Subscriber Eventhandler Type, without EventArgs for this example
-    public delegate void PriceChangedHandler(decimal oldPrice, decimal newPrice);
-}
 
 namespace ADOPM3_02_19
 {
 	public class Stock
 	{
-		string symbol;
-		public Stock(string symbol) { this.symbol = symbol; }
-		public event PriceChangedHandler PriceChanged; //Broadcaster event
-		public event PriceChangedHandler PriceChangedMoreThan20; //Broadcaster event
+		public string Symbol { get; set; }
+		public Stock(string symbol) { this.Symbol = symbol; }
+
+		public event Action<string, decimal, decimal> PriceChanged;
 
 		decimal _price;
 		public decimal Price
@@ -25,16 +19,7 @@ namespace ADOPM3_02_19
 				if (_price == value) return;         // Exit if nothing has changed
 				decimal oldPrice = _price;
 				_price = value;
-
-				PriceChanged?.Invoke(oldPrice, _price); // Invoke if not null
-				// Above is excatly the same as
-				//if (PriceChanged != null)           
-					//PriceChanged(oldPrice, price);  // fire event.
-
-				if (_price >= oldPrice*1.20M)
-                {
-					PriceChangedMoreThan20?.Invoke(oldPrice, _price);							
-                }
+				PriceChanged?.Invoke(Symbol, oldPrice, _price);
 			}
 		}
 	}
@@ -42,22 +27,28 @@ namespace ADOPM3_02_19
     {
         static void Main(string[] args)
         {
-			var stock = new Stock("MSFT");
-			stock.Price = 123;
-			stock.PriceChanged += ReportPriceChange;
-			stock.PriceChangedMoreThan20 += ReportPriceChangeMoreThan20;
-			stock.Price = 456;
-            Console.WriteLine(stock.Price);
+			var stock1 = new Stock("MSFT");
+			stock1.PriceChanged += Alarm;
+			stock1.Price = 1500;
+			stock1.Price = 456;
+			Console.WriteLine($"{stock1.Symbol, 20}: {stock1.Price}");
+
+			var stock2 = new Stock("SAS");
+			stock2.PriceChanged += Alarm;
+			stock2.Price = 1;
+			stock2.Price = 456;
+			Console.WriteLine($"{stock2.Symbol,20}: {stock2.Price}");
+
+
+			stock1.Price = 5;
 		}
 
-		static void ReportPriceChange(decimal oldPrice, decimal newPrice) //Subscriber eventhandler implementation
-		{
-			Console.WriteLine($"Price changed from {oldPrice} to {newPrice}");
-		}
-		static void ReportPriceChangeMoreThan20(decimal oldPrice, decimal newPrice) //Subscriber eventhandler implementation
-		{
-			Console.WriteLine($"Sell");
-		}
+		static void Alarm(string symbol, decimal oldprice, decimal newprice)
+        {
+            Console.WriteLine($"{symbol} Price Changed from {oldprice} to {newprice}");
+        }
+
+
 	}
 
 	//Exercises
