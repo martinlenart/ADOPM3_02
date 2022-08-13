@@ -12,6 +12,7 @@ namespace ADOPM3_02_20
 		string symbol;
 		decimal price;
 		public Stock(string symbol) { this.symbol = symbol; }
+
 		public event EventHandler PriceChanged; //Broadcaster event
 		protected virtual void OnPriceChanged(EventArgs e)
 		{
