@@ -8,10 +8,13 @@ namespace ADOPM3_02_21
 		decimal price;
 		public Stock(string symbol) { this.symbol = symbol; }
 		public event EventHandler<(decimal, decimal)> PriceChanged; //Broadcaster event
+		
+		/*
 		protected virtual void OnPriceChanged((decimal, decimal) e)
 		{
 			PriceChanged?.Invoke(this, e); // Invoke if not null
 		}
+		*/
 
 		public decimal Price
 		{
@@ -22,7 +25,9 @@ namespace ADOPM3_02_21
 				decimal oldPrice = price;
 				price = value;
 
-				OnPriceChanged((oldPrice, price)); // Call the virtual Method
+				PriceChanged?.Invoke(this, (oldPrice, price));
+
+                //OnPriceChanged((oldPrice, price)); // Call the virtual Method
 			}
 		}
 	}
@@ -30,6 +35,7 @@ namespace ADOPM3_02_21
 	{
 		static void Main(string[] args)
 		{
+
 			var stock = new Stock("MSFT");
 			stock.PriceChanged += ReportPriceChange;
 			stock.Price = 123;

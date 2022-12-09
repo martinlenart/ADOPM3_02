@@ -40,11 +40,13 @@ namespace ADOPM3_02_19
         {
 			var stock1 = new Stock("MSFT");
 			stock1.PriceChanged += Alarm;
-			stock1.PriceChangedDown20 += AlarmSell;
-			stock1.PriceChangedUp20 += AlarmBuy;
+			//stock1.PriceChangedDown20 += AlarmSell;
+			//stock1.PriceChangedUp20 += AlarmBuy;
 			stock1.Price = 1500;
 			stock1.Price = 456;
-			Console.WriteLine($"{stock1.Symbol, 20}: {stock1.Price}");
+            stock1.Price = 456;
+
+            Console.WriteLine($"{stock1.Symbol, 20}: {stock1.Price}");
 
 			var stock2 = new Stock("SAS");
 			stock2.PriceChanged += Alarm;
@@ -58,10 +60,12 @@ namespace ADOPM3_02_19
 			stock1.Price = 5;
 		}
 
+		//Event handlers
 		static void Alarm(string symbol, decimal oldprice, decimal newprice)
         {
             Console.WriteLine($"{symbol} Price Changed from {oldprice} to {newprice}");
         }
+		
 		static void AlarmSell(string symbol, decimal oldprice, decimal newprice)
 		{
 			Console.WriteLine($"SELL!!! {symbol} Price Changed from {oldprice} to {newprice}");
@@ -70,6 +74,7 @@ namespace ADOPM3_02_19
 		{
 			Console.WriteLine($"BUY!!! {symbol} Price Changed from {oldprice} to {newprice}");
 		}
+		
 
 	}
 
